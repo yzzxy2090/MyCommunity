@@ -1,11 +1,16 @@
 package com.zxy.forum.mapper;
 
+import com.zxy.forum.dto.QuestionDTO;
 import com.zxy.forum.model.Question;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+
+/**
+ * mapper是和数据库进行交互的
+ */
 
 @Mapper
 public interface QuestionMapper {

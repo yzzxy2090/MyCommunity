@@ -1,13 +1,17 @@
 package com.zxy.forum.controller;
 
+import com.zxy.forum.dto.QuestionDTO;
 import com.zxy.forum.mapper.UserMapper;
 import com.zxy.forum.model.User;
+import com.zxy.forum.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class IndexController {
@@ -16,8 +20,12 @@ public class IndexController {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private QuestionService questionService;
+
     @GetMapping("/")
-    public String index(HttpServletRequest request) {
+    public String index(HttpServletRequest request,
+                        Model model) {
 
         //通过HttpServletRequest获得向服务器端发送请求的cookie
         //(HttpServletResponse是向服务器发送请求后返回浏览器的cookie，可用来设置这个cookie)
@@ -41,6 +49,9 @@ public class IndexController {
                 break;
             }
         }
+        List<QuestionDTO> questionList = questionService.list();
+        //通过model把问题列表传到前段
+        model.addAttribute("questions", questionList);
         return "index";
     }
 }

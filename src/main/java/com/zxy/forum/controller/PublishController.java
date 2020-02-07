@@ -71,11 +71,20 @@ public class PublishController {
                 }
             }
 
+        /**
+         * 如果当前用户user不存在，即没有登陆
+         * 就通过model将提示信息传到前端
+         */
         if (user == null) {
             model.addAttribute("error", "用户未登录");
             return "publish";
         }
 
+        /**
+         * 之后就创建Question对象
+         * 并通过questionMapper将该question对象写入数据库
+         * 完成后就跳转至首页
+         */
         Question question = new Question();
         question.setTitle(title);
         question.setDescription(description);
