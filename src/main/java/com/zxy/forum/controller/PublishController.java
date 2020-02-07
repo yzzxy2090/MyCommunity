@@ -51,6 +51,12 @@ public class PublishController {
             model.addAttribute("error", "标签不能为空");
             return "publish";
         }
+
+        /**
+         * 上述验证完成后，验证此时是否已登录
+         * 若已登录，就通过token去数据库中查user
+         * 若查到这个user就把这个user绑定到session上
+         */
         User user = null;
         Cookie[] cookies = request.getCookies();
         if (cookies != null && cookies.length != 0)
