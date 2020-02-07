@@ -15,4 +15,7 @@ public interface UserMapper {
     //否则如这里形参类型为String，则要对方法体形参添加@Param("token")注解
     @Select("select * from user where token = #{token}")
     User findByToken(@Param("token") String token);
+
+    @Select("select * from user where id = #{id}")
+    User findById(@Param("id")Integer id);
 }

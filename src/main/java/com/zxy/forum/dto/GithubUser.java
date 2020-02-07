@@ -3,6 +3,8 @@ package com.zxy.forum.dto;
 public class GithubUser {
     private Long id;
     private String name;
+
+    //用户简介
     private String bio;
 
 

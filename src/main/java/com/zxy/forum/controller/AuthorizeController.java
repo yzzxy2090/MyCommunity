@@ -15,6 +15,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
+/**
+ * 登录时手动识别cookie的name(如"seesion")和value去数据库中查，查得到就登陆成功，否则登陆失败
+ *
+ * 首次登录时，会将github的token写入到数据库中的"token"字段下
+ * 点击“登录”时会拿到cookie中Name为"token"的信息，去数据库中查询看数据库中是否存在对应的token值
+ */
+
 @Controller
 public class AuthorizeController {
 
@@ -48,7 +55,7 @@ public class AuthorizeController {
         GithubUser githubUser = githubProvider.getUser(accessToken);
 
         //登陆成功
-        if (githubUser != null) {
+        if (githubUser != null && githubUser.getId() != null) {
             //获取用户Github账户信息，生成token
             User user = new User();
             String token = UUID.randomUUID().toString();
@@ -58,8 +65,9 @@ public class AuthorizeController {
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
+            //将user信息插入数据库的过程就相当于写入seesion
             userMapper.insert(user);
-            //将token放写入cookie中
+            //通过HttpServletResponse将token放写入cookie中
             response.addCookie(new Cookie("token", token));
             //重定向至首页
             return "redirect:/";

@@ -34,7 +34,7 @@ public class IndexController {
                 String token = cookie.getValue();
                 //向数据库传一个token参数以获取相对应的User
                 User user = userMapper.findByToken(token);
-                //若User对象不为空，则登陆成功
+                //若从数据库查到的User对象不为空，则说明登陆成功
                 if (user != null) {
                     request.getSession().setAttribute("user", user);
                 }
